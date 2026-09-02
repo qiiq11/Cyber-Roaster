@@ -1,0 +1,29 @@
+services:
+  backend:
+    build: ./src/backend
+    container_name: cyber-roaster-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:////data/cyber_roaster.db
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL:-https://api.siliconflow.cn/v1}
+      - OPENAI_MODEL=${OPENAI_MODEL:-deepseek-ai/DeepSeek-V3}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET:-}
+      - MEME_OUTPUT_DIR=/data/memes
+    volumes:
+      - roaster_data:/data
+    restart: unless-stopped
+
+  frontend:
+    build: ./src/frontend
+    container_name: cyber-roaster-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  roaster_data:
