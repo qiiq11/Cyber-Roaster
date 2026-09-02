@@ -1,0 +1,6 @@
+# 团队协作规则
+
+1. 所有 PR 需通过 CI（lint + test）后方可合并。
+2. 提交信息遵循 Angular 规范。
+3. 文档与图表使用 Markdown + Mermaid。
+4. 密钥仅通过 `.env` 注入，禁止提交到仓库。

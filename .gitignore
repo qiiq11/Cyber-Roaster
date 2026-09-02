@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+
+# 测试与覆盖率
+.pytest_cache/
+.coverage
+htmlcov/
+.coverage.*
+
+# 数据库
+*.db
+*.sqlite3
+
+# 环境变量
+.env
+
+# 生成的梗图
+src/backend/static/memes/
+
+# Node / 前端
+node_modules/
+dist/
+.vite/
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+
+# 系统
+.DS_Store
+Thumbs.db
