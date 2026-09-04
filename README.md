@@ -6,7 +6,7 @@
 [![React](https://img.shields.io/badge/React-18-61dafb.svg)](https://react.dev/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-把代码提交给 AI，收获一份**毒舌但善意**的幽默评审，还能一键生成赛博朋克四格漫画——让 Code Review 从此不再枯燥。
+把代码提交给 AI，收获一份**毒舌但善意**的幽默评审，还能一键生成赛博朋克风格梗图——让 Code Review 从此不再枯燥。
 
 ## ✨ 功能特性
 
@@ -91,7 +91,7 @@ npm run dev
 | `DATABASE_URL` | 否 | 数据库连接串 | `sqlite:///./cyber_roaster.db` |
 | `MEME_OUTPUT_DIR` | 否 | 梗图输出目录 | `./static/memes` |
 
-> 说明：未配置 `OPENAI_API_KEY` 时后端会回退到本地生成器；未配置 `GITHUB_TOKEN` 时 GitHub 分析会使用模拟 Diff。两者均保证演示与测试可运行，但生产使用建议按需配置。
+> 说明：未配置 `OPENAI_API_KEY` 时后端会返回模拟评审数据（仅供演示），生产使用请务必配置。未配置 `GITHUB_TOKEN` 时 GitHub 分析会使用模拟 Diff，同样仅供演示。
 
 ## 📡 API 概览
 
