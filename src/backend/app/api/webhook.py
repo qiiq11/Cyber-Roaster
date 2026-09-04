@@ -41,7 +41,9 @@ async def github_webhook(
     settings = get_settings()
     payload = await request.body()
 
-    if not _verify_signature(payload, x_hub_signature_256, settings.webhook_secret or ""):
+    if not _verify_signature(
+        payload, x_hub_signature_256, settings.webhook_secret or ""
+    ):
         raise HTTPException(status_code=401, detail="Webhook 签名校验失败")
 
     try:

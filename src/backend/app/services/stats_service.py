@@ -24,9 +24,7 @@ class StatsService:
             else 0.0
         )
         max_score = self.db.query(func.max(AnalysisRecord.chaos_score)).scalar() or 0
-        min_score = (
-            self.db.query(func.min(AnalysisRecord.chaos_score)).scalar() or 0
-        )
+        min_score = self.db.query(func.min(AnalysisRecord.chaos_score)).scalar() or 0
         total_commits = self.db.query(func.count(Commit.id)).scalar() or 0
         total_memes = self.db.query(func.count(Meme.id)).scalar() or 0
 

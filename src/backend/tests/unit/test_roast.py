@@ -98,6 +98,7 @@ def test_webhook_ping(client):
 
 # ===== analyze_code_structure 多语言变量提取 =====
 
+
 def test_analyze_java_extracts_members():
     java_code = (
         "public class Student {\n"
@@ -125,12 +126,16 @@ def test_analyze_java_no_diff_hallucination():
 
 
 def test_analyze_regex_fallback_js():
-    result = analyze_code_structure("function greet(name) { return name; }", "javascript")
+    result = analyze_code_structure(
+        "function greet(name) { return name; }", "javascript"
+    )
     assert "greet" in result["variables"]
 
 
 def test_analyze_regex_fallback_cpp():
-    result = analyze_code_structure("class Foo { public: int bar(int x) { return x; } };", "cpp")
+    result = analyze_code_structure(
+        "class Foo { public: int bar(int x) { return x; } };", "cpp"
+    )
     assert "Foo" in result["variables"]
     assert "bar" in result["variables"]
 

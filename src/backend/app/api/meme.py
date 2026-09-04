@@ -20,7 +20,9 @@ router = APIRouter(prefix="/meme", tags=["meme"])
 _OUTPUT_DIR = os.environ.get("MEME_OUTPUT_DIR", "./static/memes")
 
 
-@router.post("/{analysis_id}", response_model=MemeResponse, summary="基于评审结果生成四格漫画")
+@router.post(
+    "/{analysis_id}", response_model=MemeResponse, summary="基于评审结果生成四格漫画"
+)
 def generate_meme(
     analysis_id: int,
     db: Session = Depends(get_db),

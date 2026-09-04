@@ -165,7 +165,11 @@ def _generate_meme_png_pillow(analysis: Dict[str, Any]) -> bytes:
         # 主体文字（折行）
         body_wrapped = _fit_text(draw, body, body_font, PANEL_W - 24)
         draw.multiline_text(
-            (x0 + 12, y0 + 40), body_wrapped, fill=TEXT_COLOR, font=small_font, spacing=4
+            (x0 + 12, y0 + 40),
+            body_wrapped,
+            fill=TEXT_COLOR,
+            font=small_font,
+            spacing=4,
         )
 
         # 评分条（仅评分格）
@@ -173,11 +177,15 @@ def _generate_meme_png_pillow(analysis: Dict[str, Any]) -> bytes:
             bar_x0 = x0 + 12
             bar_y0 = y0 + PANEL_H - 40
             bar_w = PANEL_W - 24
-            draw.rectangle([bar_x0, bar_y0, bar_x0 + bar_w, bar_y0 + 14],
-                           outline=BORDER_COLOR, width=2)
+            draw.rectangle(
+                [bar_x0, bar_y0, bar_x0 + bar_w, bar_y0 + 14],
+                outline=BORDER_COLOR,
+                width=2,
+            )
             fill_w = int(bar_w * score / 100)
-            draw.rectangle([bar_x0, bar_y0, bar_x0 + fill_w, bar_y0 + 14],
-                           fill=SCORE_COLOR)
+            draw.rectangle(
+                [bar_x0, bar_y0, bar_x0 + fill_w, bar_y0 + 14], fill=SCORE_COLOR
+            )
 
     buffer = io.BytesIO()
     img.save(buffer, format="PNG")

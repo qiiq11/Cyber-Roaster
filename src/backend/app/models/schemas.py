@@ -15,7 +15,9 @@ from pydantic import BaseModel, Field
 class RoastRequest(BaseModel):
     """POST /roast 请求体。"""
 
-    code: str = Field(..., min_length=1, max_length=20000, description="待评审的代码片段")
+    code: str = Field(
+        ..., min_length=1, max_length=20000, description="待评审的代码片段"
+    )
     language: str = Field(default="python", max_length=32, description="编程语言")
 
 
@@ -45,7 +47,9 @@ class StatsResponse(BaseModel):
 class GitHubAnalyzeRequest(BaseModel):
     """POST /github/analyze 请求体。"""
 
-    repo: str = Field(..., min_length=3, max_length=200, description="仓库全名 owner/name")
+    repo: str = Field(
+        ..., min_length=3, max_length=200, description="仓库全名 owner/name"
+    )
     commit_sha: str = Field(..., min_length=6, max_length=64, description="提交 SHA")
 
 

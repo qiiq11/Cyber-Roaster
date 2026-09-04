@@ -49,12 +49,39 @@ _NON_VARIABLE_NAMES = frozenset({"True", "False", "None", "self", "cls"}) | froz
 # 防止类型注解如 List[float] 中的 List 被误认为用户变量）。
 BUILTIN_TYPES = frozenset(
     {
-        "List", "Dict", "Set", "Tuple", "Optional", "Union", "Any",
-        "Callable", "TypeVar", "Generic", "Iterable", "Iterator",
-        "Sequence", "Mapping", "MutableSequence", "MutableMapping",
-        "str", "int", "float", "bool", "bytes", "bytearray",
-        "object", "type", "None", "True", "False", "Ellipsis",
-        "Exception", "ValueError", "TypeError", "IndexError", "KeyError",
+        "List",
+        "Dict",
+        "Set",
+        "Tuple",
+        "Optional",
+        "Union",
+        "Any",
+        "Callable",
+        "TypeVar",
+        "Generic",
+        "Iterable",
+        "Iterator",
+        "Sequence",
+        "Mapping",
+        "MutableSequence",
+        "MutableMapping",
+        "str",
+        "int",
+        "float",
+        "bool",
+        "bytes",
+        "bytearray",
+        "object",
+        "type",
+        "None",
+        "True",
+        "False",
+        "Ellipsis",
+        "Exception",
+        "ValueError",
+        "TypeError",
+        "IndexError",
+        "KeyError",
     }
 )
 
@@ -64,24 +91,81 @@ _UNRECOGNIZED_VAR = "（无法识别变量名）"
 # Java 关键字，用于正则回退时过滤
 _JAVA_KEYWORDS = frozenset(
     {
-        "abstract", "assert", "boolean", "break", "byte", "case", "catch",
-        "char", "class", "const", "continue", "default", "do", "double",
-        "else", "enum", "extends", "final", "finally", "float", "for",
-        "goto", "if", "implements", "import", "instanceof", "int",
-        "interface", "long", "native", "new", "package", "private",
-        "protected", "public", "return", "short", "static", "strictfp",
-        "super", "switch", "synchronized", "this", "throw", "throws",
-        "transient", "try", "void", "volatile", "while",
+        "abstract",
+        "assert",
+        "boolean",
+        "break",
+        "byte",
+        "case",
+        "catch",
+        "char",
+        "class",
+        "const",
+        "continue",
+        "default",
+        "do",
+        "double",
+        "else",
+        "enum",
+        "extends",
+        "final",
+        "finally",
+        "float",
+        "for",
+        "goto",
+        "if",
+        "implements",
+        "import",
+        "instanceof",
+        "int",
+        "interface",
+        "long",
+        "native",
+        "new",
+        "package",
+        "private",
+        "protected",
+        "public",
+        "return",
+        "short",
+        "static",
+        "strictfp",
+        "super",
+        "switch",
+        "synchronized",
+        "this",
+        "throw",
+        "throws",
+        "transient",
+        "try",
+        "void",
+        "volatile",
+        "while",
     }
 )
 
 # 用于正则回退提取的语言集合（未实现 AST 解析的语言）
 _REGEX_LANGUAGES = frozenset(
-    {"javascript", "js", "typescript", "ts", "cpp", "c++", "c", "go", "rust", "rs", "java", "text"}
+    {
+        "javascript",
+        "js",
+        "typescript",
+        "ts",
+        "cpp",
+        "c++",
+        "c",
+        "go",
+        "rust",
+        "rs",
+        "java",
+        "text",
+    }
 )
 
 # 顶层函数/类名正则（跨语言通用，用于未实现 AST 解析时的回退）
-_FUNC_RE = re.compile(r"\b(?:func|fn|function|def|void|int|bool|boolean|string|String|char|float|double)\s+([A-Za-z_]\w*)\s*\(")
+_FUNC_RE = re.compile(
+    r"\b(?:func|fn|function|def|void|int|bool|boolean|string|String|char|float|double)\s+([A-Za-z_]\w*)\s*\("
+)
 _CLASS_RE = re.compile(r"\b(?:class|struct|interface|type)\s+([A-Za-z_]\w*)")
 
 
@@ -191,7 +275,9 @@ def _analyze_java(code: str) -> Dict[str, Any]:
         max_nesting_depth = max(max_nesting_depth, depth)
 
     variables = sorted(class_names | method_names | var_names)
-    variables = [v for v in variables if v not in _JAVA_KEYWORDS and v not in BUILTIN_TYPES]
+    variables = [
+        v for v in variables if v not in _JAVA_KEYWORDS and v not in BUILTIN_TYPES
+    ]
 
     if not variables:
         variables = [_UNRECOGNIZED_VAR]
