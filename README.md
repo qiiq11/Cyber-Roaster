@@ -13,7 +13,7 @@
 - 🧠 **AI 代码评审**：调用 OpenAI 兼容 LLM，返回评语、混乱度评分与改进建议。
 - 📊 **统计面板**：评审总数、平均/最高/最低混乱度、提交数与梗图数。
 - 🔗 **GitHub 集成**：输入仓库 + Commit SHA 自动拉取 Diff 分析；Webhook 实现「Push 即吐槽」。
-- 🖼️ **梗图生成**：基于 Pillow 模板化方案生成四格漫画，可预览并下载 PNG。
+- 🖼️ **梗图生成**：基于 memegen.link API 生成流行梗图，可预览并下载 PNG。
 - 🐳 **一键启动**：Docker Compose 拉起前后端。
 - 🧪 **完整测试**：pytest 单元测试 + pytest-bdd 行为测试，覆盖率 ≥ 70%。
 
@@ -22,7 +22,7 @@
 | 层 | 技术 |
 | --- | --- |
 | 后端 | Python 3.10+ · FastAPI · SQLAlchemy · Pydantic |
-| 前端 | React 18 · Vite · Canvas（预留） |
+| 前端 | React 18 · Vite |
 | AI | OpenAI 兼容 API（硅基流动 / Azure / DeepSeek） |
 | 数据库 | SQLite（开发）→ 可切换 PostgreSQL |
 | 容器 | Docker + Docker Compose |
@@ -83,15 +83,15 @@ npm run dev
 
 | 变量 | 必填 | 说明 | 默认值 |
 | --- | --- | --- | --- |
-| `OPENAI_API_KEY` | 否* | OpenAI 兼容 API 密钥 | 空 |
+| `OPENAI_API_KEY` | 是 | OpenAI 兼容 API 密钥 | 空 |
 | `OPENAI_BASE_URL` | 否 | API 基础地址（硅基流动/Azure/DeepSeek） | `https://api.siliconflow.cn/v1` |
 | `OPENAI_MODEL` | 否 | 模型名 | `deepseek-ai/DeepSeek-V3` |
-| `GITHUB_TOKEN` | 否* | GitHub 访问令牌 | 空 |
+| `GITHUB_TOKEN` | 按需 | GitHub 分析时需要 | 空 |
 | `WEBHOOK_SECRET` | 否 | Webhook HMAC 密钥 | 空 |
 | `DATABASE_URL` | 否 | 数据库连接串 | `sqlite:///./cyber_roaster.db` |
 | `MEME_OUTPUT_DIR` | 否 | 梗图输出目录 | `./static/memes` |
 
-> \* 未配置时，后端自动启用**本地回退生成器 / 模拟 Diff**，保证演示与测试可运行。
+> 说明：未配置 `OPENAI_API_KEY` 时后端会回退到本地生成器；未配置 `GITHUB_TOKEN` 时 GitHub 分析会使用模拟 Diff。两者均保证演示与测试可运行，但生产使用建议按需配置。
 
 ## 📡 API 概览
 
