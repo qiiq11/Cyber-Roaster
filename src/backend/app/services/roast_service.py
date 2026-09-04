@@ -164,7 +164,8 @@ _REGEX_LANGUAGES = frozenset(
 
 # 顶层函数/类名正则（跨语言通用，用于未实现 AST 解析时的回退）
 _FUNC_RE = re.compile(
-    r"\b(?:func|fn|function|def|void|int|bool|boolean|string|String|char|float|double)\s+([A-Za-z_]\w*)\s*\("
+    r"\b(?:func|fn|function|def|void|int|bool|boolean|string|String|char|float|"
+    r"double)\s+([A-Za-z_]\w*)\s*\("
 )
 _CLASS_RE = re.compile(r"\b(?:class|struct|interface|type)\s+([A-Za-z_]\w*)")
 
