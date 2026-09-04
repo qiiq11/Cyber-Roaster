@@ -1,9 +1,12 @@
 """评审接口单元测试。
 
-覆盖 /roast、/stats、/github/analyze、/meme 核心接口。
+覆盖 /roast、/stats、/github/analyze、/meme 核心接口，
+以及 analyze_code_structure 的多语言变量提取逻辑。
 """
 
 from __future__ import annotations
+
+from app.services.roast_service import analyze_code_structure
 
 
 def test_health(client):
@@ -91,3 +94,55 @@ def test_webhook_ping(client):
     )
     assert resp.status_code == 200
     assert resp.json()["status"] == "pong"
+
+
+# ===== analyze_code_structure 多语言变量提取 =====
+
+def test_analyze_java_extracts_members():
+    java_code = (
+        "public class Student {\n"
+        "    private String name;\n"
+        "    private int age;\n"
+        "    private boolean gender;\n"
+        "    public Student(String name, int age, boolean gender) {\n"
+        "        this.name = name;\n"
+        "    }\n"
+        "    public String getName() { return name; }\n"
+        "}"
+    )
+    result = analyze_code_structure(java_code, "java")
+    variables = result["variables"]
+    for expected in ["name", "age", "gender", "getName", "Student"]:
+        assert expected in variables
+    assert "diff" not in variables
+
+
+def test_analyze_java_no_diff_hallucination():
+    # 即使 Java 代码里没有 diff，结果也不应凭空出现 diff
+    result = analyze_code_structure("public class A { int x = 1; }", "java")
+    assert "diff" not in result["variables"]
+    assert "x" in result["variables"]
+
+
+def test_analyze_regex_fallback_js():
+    result = analyze_code_structure("function greet(name) { return name; }", "javascript")
+    assert "greet" in result["variables"]
+
+
+def test_analyze_regex_fallback_cpp():
+    result = analyze_code_structure("class Foo { public: int bar(int x) { return x; } };", "cpp")
+    assert "Foo" in result["variables"]
+    assert "bar" in result["variables"]
+
+
+def test_analyze_unparseable_returns_placeholder():
+    # 无法解析时返回占位符，而非空列表
+    result = analyze_code_structure("!!! not valid code !!!", "text")
+    assert result["variables"]
+    assert result["variables"][0] == "（无法识别变量名）"
+
+
+def test_analyze_python_unchanged():
+    result = analyze_code_structure("x = 1\ndef foo(a):\n    return a + x\n", "python")
+    assert result["variables"] == ["a", "foo", "x"]
+    assert result["max_nesting_depth"] == 1

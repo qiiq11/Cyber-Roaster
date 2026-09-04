@@ -41,6 +41,10 @@ class Settings(BaseSettings):
     # --- 数据库 ---
     database_url: str = "sqlite:///./cyber_roaster.db"
 
+    # --- 梗图生成 ---
+    # 梗图模板偏好：memegen（默认，调用免费 memegen.link API）或 pillow（本地自绘）。
+    meme_template_preference: str = "memegen"
+
     # --- 限流 ---
     rate_limit_default: str = "60/minute"
     rate_limit_llm: str = "20/minute"

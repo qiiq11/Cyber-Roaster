@@ -8,7 +8,7 @@ export default function MemeViewer({ meme }) {
   const src = api.memeUrl(meme.id)
   return (
     <div className="meme-viewer">
-      <h3>生成的四格漫画</h3>
+      <h3>赛博表情包</h3>
       <img src={src} alt="代码评审梗图" className="meme-img" />
       <a className="btn-secondary" href={src} download="roast.png">
         ⬇️ 下载 PNG

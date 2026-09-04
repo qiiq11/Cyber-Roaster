@@ -44,6 +44,10 @@ app = FastAPI(
     version=settings.app_version,
     description="基于 AI 的幽默代码评审与梗图生成工具",
     lifespan=lifespan,
+    # 显式声明文档与 OpenAPI 路径，确保 Swagger UI 与 schema 始终可用
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
 )
 
 # CORS：允许前端开发服务器跨域访问
