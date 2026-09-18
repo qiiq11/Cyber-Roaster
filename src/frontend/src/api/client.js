@@ -1,5 +1,15 @@
 // 后端 API 客户端封装
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
+// API 地址动态判断：优先使用环境变量覆盖，其次根据运行环境推断。
+// - 打包后由后端托管前端，两者同源，直接用 window.location.origin。
+// - 开发环境（Vite dev server）经 proxy 转发到后端，同样用 origin。
+// - 若以 file:// 协议打开（非常规场景），回退到固定地址。
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  (window.location.origin.startsWith('file://')
+    ? 'http://127.0.0.1:8000'
+    : window.location.origin)
+
+export default BASE_URL
 
 /**
  * 通用 fetch 封装，自动拼接基础地址并解析 JSON。
