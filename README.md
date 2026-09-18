@@ -117,6 +117,46 @@ pytest tests/unit             # 仅单元测试
 pytest tests/bdd              # 仅 BDD 场景
 ```
 
+## 📦 打包为可执行文件
+
+将项目打包为 Windows 可执行文件，双击即可启动，浏览器自动打开前端页面。
+
+### 打包命令
+
+```bash
+# 1. 安装 PyInstaller
+pip install pyinstaller
+
+# 2. 构建前端产物
+cd src/frontend
+npm run build
+cd ../..
+
+# 3. 执行打包
+pyinstaller build.spec --clean
+```
+
+### 产物位置
+
+打包完成后，可执行文件位于：
+
+```
+dist/CyberRoaster.exe
+```
+
+### 使用方式
+
+1. 将 `CyberRoaster.exe` 与 `.env` 文件放在同一目录（`.env` 由 `src/backend/.env.example` 复制并填写）。
+2. 双击运行 `CyberRoaster.exe`。
+3. 浏览器会自动打开 `http://127.0.0.1:8000`，即可使用全部功能。
+
+### 注意事项
+
+- 首次运行会在 exe 同级目录生成 `cyber_roaster.db` 和 `static/memes/` 目录，属正常行为。
+- 未配置 `.env`（或未填写 `OPENAI_API_KEY`）时，后端走本地回退生成器，返回模拟评审数据（仅供演示）。
+- 打包后的 exe 体积较大（约 95 MB，含 Python 运行时与全部依赖），属正常现象。
+- 若杀毒软件误报，请选择「允许运行」。
+
 ## 📚 文档
 
 - [系统设计（6 大架构图）](docs/system_design.md)
